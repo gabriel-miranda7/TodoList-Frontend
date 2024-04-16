@@ -12,8 +12,14 @@ export const TaskStyle = styled.div`
     border-radius: 10px;
 
     .check,
-    .edit {
+    .edit,
+    .circle {
         color: ${iconColor};
         cursor: pointer;
+    }
+
+    p {
+        font-size: 20px;
+        font-family: 'Poppins', sans-serif;
     }
 `;

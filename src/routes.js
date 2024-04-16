@@ -12,7 +12,7 @@ function AppRoutes() { //São as rotas da aplicação, privadas ou públicas
       <Route path="/" element={<Landing />} />
       <Route element={<PrivateRoutes />} >
         <Route path="dash" element={<Home />} />
-        </Route>
+      </Route>
     </Routes>
   );
 }

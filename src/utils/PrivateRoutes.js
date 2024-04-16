@@ -5,7 +5,7 @@ import checkToken from './CheckToken';
 const PrivateRoutes = ({children, ...rest}) => {
     const token = localStorage.getItem('token');
 
-    if (!token) { //Se não tiver token, rediretiona pra página de autenticação
+    if (!token) { //Se não tiver token, redireciona pra página de autenticação
         return <Navigate to='/auth'/>;
     }
 
@@ -16,4 +16,4 @@ const PrivateRoutes = ({children, ...rest}) => {
     )
 }
 
-export default PrivateRoutes
+export default PrivateRoutes;
