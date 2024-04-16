@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import checkToken from '../../utils/CheckToken';
 
 function LoginRegisterPage() {
   const [errorMessage, setErrorMessage] = useState('');
@@ -36,7 +37,7 @@ function LoginRegisterPage() {
         // Redireciona para a página inicial
         window.location.href = '/dash';
       } catch (error) {
-        if(error.response && error.response.status === 404){
+        if(error.response && error.response.status === 404){ //Tratamento de erros HTTP
             setErrorMessage("Esse usuário não existe");
             return;
         }else if(error.response && error.response.status === 400){
@@ -53,6 +54,19 @@ function LoginRegisterPage() {
   const toggleMode = () => {
     setIsRegistering(!isRegistering);
   };
+
+  useEffect(() => { /*Verifica se já existe token e se ele é válido, daí já envia direto pra dash
+  pulando a atuenticação caso positivo */
+    const checkTokenAndRedirect = async () => {
+      const token = localStorage.getItem('token'); //Pega o token local do navegador
+      const isValidToken = await checkToken(token); //Manda pra API para verificar
+      if (isValidToken) { //Se o token é válido, manda pra dash
+        window.location.href = '/dash';
+      }
+    };
+
+    checkTokenAndRedirect();
+  }, []);
 
   return (
     <div>

@@ -1,10 +1,18 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import axios from 'axios'
+import checkToken from './CheckToken';
+
 
 const PrivateRoutes = ({children, ...rest}) => {
-    let auth = {'token' : false}
+    const token = localStorage.getItem('token');
+
+    if (!token) { //Se não tiver token, rediretiona pra página de autenticação
+        return <Navigate to='/auth'/>;
+    }
+
+    let response = checkToken(token) // Checa se o token já existe e verifica sua validade na API
+
     return(
-        auth.token ? <Outlet/> : <Navigate to='/auth'/> 
+        response ? <Outlet/> : <Navigate to='/auth'/>  //Caso seja válido renderiza a página children
     )
 }
 
