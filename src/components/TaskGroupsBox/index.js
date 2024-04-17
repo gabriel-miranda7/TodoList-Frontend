@@ -7,33 +7,56 @@ import { Main, Substitute } from './styled';
 function TaskGroupsBox() {
     const token = localStorage.getItem('token');
     const [allTodoLists, setTodoLists] = useState([]);
+    const [loading, setLoading] = useState(true); 
     // array de histórico
     let latestTodoLists = [];
 
-    try {
-        // puxando todas as todolists
-        async function getData() {
-            const response = await axios.get('/todolists', {
+    const firstList = (e) => {
+        try {
+            // criando nova tarefa
+            axios.post('/todolistnew', 
+            {
+                title: "Lista1"
+            }, {
                 headers: {
                     Authorization: `Token ${token}`
                 }
+            }).then(response => {
+                window.location.reload();
             })
-            setTodoLists(response.data);
-        };
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
-        useEffect(() => {
-            getData();
-        }, []);
-    } catch (e) {
-        console.log(e);
+
+    useEffect(() => {
+        async function getData() {
+            try {
+                const response = await axios.get('/todolists', {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                });
+                setTodoLists(response.data);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false)
+            }
+        }
+        
+        getData();
+    }, [token]);
+
+    if (loading) {
+        return; 
     }
 
     // preenchendo o array de histórico com no máximo 5
     for (let i = 0; i < 5; ++i) {
         latestTodoLists.push(allTodoLists[i])
     }
-
-    console.log(allTodoLists);
 
     if(allTodoLists.length > 0) {
         return (
@@ -72,7 +95,7 @@ function TaskGroupsBox() {
                 <section className='boas_vindas'>
                     <img src="images/boas-vindas.png" alt="boas vindas" />
                     <h1>Crie uma To-Do list e comece já a organizar o seu dia-a dia</h1>
-                    <button>Criar</button>
+                    <button type='submit' onClick={firstList}>Criar</button>
                 </section>
             </Substitute>
         )
