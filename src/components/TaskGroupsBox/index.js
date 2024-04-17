@@ -29,7 +29,6 @@ function TaskGroupsBox() {
         }
     }
 
-
     useEffect(() => {
         async function getData() {
             try {

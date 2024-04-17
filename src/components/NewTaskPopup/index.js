@@ -4,15 +4,21 @@ import PropTypes from 'prop-types';
 import axios from '../../services/axios';
 import { Box } from './styled';
 
-function NewTask({ todoList }) {
+function NewTask({ todoList, onTaskSubmit }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    // puxando o token
-    const token = localStorage.getItem('token');
 
     const handleSubmit = (e) => {
+        e.preventDefault();
         try {
+            const newTask = {
+                title: title,
+                description : description,
+                complete: false
+            };
+            onTaskSubmit(newTask);
             // criando nova tarefa
+            const token = localStorage.getItem('token');
             axios.post('/todonew', {
                 title, description, todoList
             }, {
@@ -20,9 +26,12 @@ function NewTask({ todoList }) {
                     Authorization: `Token ${token}`
                 }
             })
+        
+            //aqui!
         } catch (e) {
             console.log(e)
         }
+
     }
 
     return(

@@ -10,17 +10,24 @@ function Tasks({
     title, tasks_data 
 }) {
     const [isEditing, setEditing] = useState(false);
+    const [tasks, setTasks] = useState(tasks_data);
 
     const handleClick = () => {
         let editing = isEditing;
         setEditing(!editing);
     }
 
+    const handleNewTask = (newTask) => {
+        setTasks([...tasks, newTask]);
+        setEditing(false)
+
+    }
+
     return (
         <TaskGroup>
             <h1>{title}</h1>
             {/* mapeando todas as tasks e exibindo cada uma */}
-            {tasks_data.map((task) => {
+            {tasks.map((task) => {
                 return(
                     <Task 
                         key={task.id}
@@ -34,6 +41,7 @@ function Tasks({
             {isEditing && (
                 <NewTask 
                     todoList={title}
+                    onTaskSubmit={handleNewTask}
                 />
             )}
         </TaskGroup>

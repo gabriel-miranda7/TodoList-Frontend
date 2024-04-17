@@ -6,7 +6,7 @@ import { Box } from './styled';
 function Popup({ onClose }) {
     const logoutUser = () => {
         localStorage.removeItem('token'); // Remover o token do localStorage
-        window.location.href =
+        window.location.href = 'auth' //Envia o usuário para autenticação em caso de logoff
         onClose(); // Fechar o popup após o logout
     }
 
