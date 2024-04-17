@@ -18,6 +18,15 @@ export const Main = styled.div`
         font-weight: 600;
     }
 
+    .cog-box,
+    .trash-box,
+    .clip-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid blue;
+    }
+
     .cog,
     .trash,
     .clipboard,
@@ -29,6 +38,7 @@ export const Main = styled.div`
         height: 50px;
         align-items: center;
         justify-content: center;
+        border: 1px solid red;
 
         .cog-icon,
         .trash-icon,

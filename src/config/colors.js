@@ -4,3 +4,5 @@ export const headerRightColor = '#b7f4a1';
 export const iconColor = '#00be62';
 export const taskColor = '#b6ecc5';
 export const addIcon = '#a7a6a7';
+
+export const dropDownBgColor = '#d9d8d8';
