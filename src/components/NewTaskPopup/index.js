@@ -10,7 +10,7 @@ function NewTask({ todoList }) {
     // puxando o token
     const token = localStorage.getItem('token');
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
         try {
             // criando nova tarefa
             axios.post('/todonew', {
