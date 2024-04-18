@@ -10,12 +10,29 @@ function Task({ id, title, desc, complete }) {
     const [comp, setComp] = useState(true); // Inicializa o estado com o valor de complete
     const token = localStorage.getItem('token');
 
+    useEffect(() => {
+        const fetchCompleteStatus = async () => { //Busca os valores de complete em todas as To-Dos ao carregar a página
+            try {
+                const response = await axios.post('/iscomplete', {
+                    todoId: id
+                }, {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                });
+                setComp(response.data.complete)
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchCompleteStatus(); 
+    }, [token, id]);
     
 
-    const handleClick = async () => { // Obtém o valor atualizado de comp
+    const handleClick = async () => { // Obtém o valor atualizado de comp de acordo com o FrontEnd
         let newCompValue = !comp;
         try{
-            await axios.put('/todonew', {
+            await axios.put('/todonew', { //Envia esse novo valor para a API
                 title: title,
                 todoId: id,
                 complete: newCompValue

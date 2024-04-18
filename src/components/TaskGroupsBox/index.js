@@ -7,6 +7,7 @@ import { Main, Substitute } from './styled';
 function TaskGroupsBox() {
     const token = localStorage.getItem('token');
     const [allTodoLists, setTodoLists] = useState([]);
+    const [loading, setLoading] = useState(true); 
     // array de histórico
     let latestTodoLists = [];
 
@@ -15,7 +16,7 @@ function TaskGroupsBox() {
             // criando nova tarefa
             axios.post('/todolistnew', 
             {
-                title: "Lista1"
+                title: "Primeira Lista"
             }, {
                 headers: {
                     Authorization: `Token ${token}`
@@ -39,16 +40,23 @@ function TaskGroupsBox() {
                 setTodoLists(response.data);
             } catch (error) {
                 console.log(error);
+            } finally {
+                setLoading(false)
             }
         }
         
         getData();
     }, [token]);
 
+    if (loading){
+        return (<h1>CARREGANDO...</h1>)
+    }
+
     // preenchendo o array de histórico com no máximo 5
     for (let i = 0; i < 5; ++i) {
         latestTodoLists.push(allTodoLists[i])
     }
+    
 
     if(allTodoLists.length > 0) {
         return (
