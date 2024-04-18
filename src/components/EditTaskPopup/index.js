@@ -1,54 +1,30 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
-import axios from '../../services/axios';
 import { Box } from './styled';
 
-function EditTask({ todoList, onTaskSubmit }) {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+function EditTask({ taskId, title, desc, closeEditing, onTaskSubmit }) {
+    const [newDescription, setNewDescription] = useState(desc);
+    const [newTitle, setNewTitle] = useState(title);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            const newTask = {
-                title: title,
-                description : description,
-                complete: false
-            };
-            onTaskSubmit(newTask);
-            // criando nova tarefa
-            const token = localStorage.getItem('token');
-            axios.post('/todonew', {
-                title, description, todoList
-            }, {
-                headers: {
-                    Authorization: `Token ${token}`
-                }
-            })
-        } catch (e) {
-            console.log(e)
-        }
-
+        onTaskSubmit(taskId, newTitle, newDescription);
+        closeEditing();
     }
 
     return(
         <Box>
             <form onSubmit={handleSubmit}>
                 <section>
-                    Título: <input type='text' onChange={(e) => setTitle(e.target.value)} />
+                    Título: <input type='text'value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
                 </section>
                 <section>
-                    Descrição: <textarea onChange={(e) => setDescription(e.target.value)} />
+                    Descrição: <textarea value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
                 </section>
-                <button type='submit'>Criar</button>
+                <button type='submit'>Concluído</button>
+                <button onClick={closeEditing}>Fechar</button>
             </form>
         </Box>
     )
-}
-
-EditTask.propTypes = {
-    todoList: PropTypes.string.isRequired
 }
 
 export default EditTask;
