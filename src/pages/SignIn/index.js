@@ -62,7 +62,10 @@ function SignIn() {
 
             window.location.href = '/dash'
         } catch(error) {
-            if(error.response && error.response.status === 404){ //Tratamento de erros HTTP
+            if (error.response && error.response.data['detail'] === 'Incorrect Password'){
+                toast.error("Senha incorreta.");
+            }
+            else if(error.response && error.response.status === 404){ //Tratamento de erros HTTP
                 toast.error("Esse usuário não existe");
                 return;
             }else if(error.response && error.response.status === 400){

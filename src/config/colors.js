@@ -1,4 +1,5 @@
 export const headerLeftColor = '#0198b2';
+export const headerSelectedColor = '#008197';
 export const headerRightColor = '#b7f4a1';
 
 export const iconColor = '#00be62';

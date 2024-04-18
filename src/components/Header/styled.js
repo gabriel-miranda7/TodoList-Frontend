@@ -38,7 +38,6 @@ export const Main = styled.div`
         height: 50px;
         align-items: center;
         justify-content: center;
-        border: 1px solid red;
 
         .cog-icon,
         .trash-icon,

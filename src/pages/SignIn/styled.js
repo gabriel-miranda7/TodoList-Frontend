@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { loginBgLight, loginBgDark, headerLeftColor, iconColor } from '../../config/colors';
+import { loginBgLight, loginBgDark, headerLeftColor, iconColor, headerSelectedColor } from '../../config/colors';
 
 export const Main = styled.div`
     display: flex;
@@ -54,6 +54,11 @@ export const Main = styled.div`
                 padding-left: 20px;
                 font-size: 30px;
                 font-family: 'Poppins', sans-serif;
+                transition: background-color 0.3s ease;
+            }
+
+            input:hover {
+                background-color: #A0A0A1;
             }
         }
 
@@ -67,6 +72,12 @@ export const Main = styled.div`
             font-size: 30px;
             color: #fff;
             font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: ${headerSelectedColor};
         }
 
         .checkbox {
@@ -104,12 +115,20 @@ export const Main = styled.div`
                 color: ${iconColor};
                 height: 50px;
                 padding: 5px;
+                padding-top: 0;
                 font-size: 25px;
+                white-space: nowrap;
                 font-family: 'Poppins', sans-serif;
                 font-weight: 500;
                 border-radius: 10px;
                 text-align: center;
                 cursor: pointer;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            button:hover {
+                color: white;
+                background-color: ${iconColor}
             }
         }
     }
