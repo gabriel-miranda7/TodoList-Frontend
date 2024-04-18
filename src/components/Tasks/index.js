@@ -5,9 +5,11 @@ import { FaRegCircle } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
 import axios from '../../services/axios';
 import { TaskStyle } from './styled';
+import EditTask from '../EditTaskPopup';
 
 function Task({ id, title, desc, complete }) {
     const [comp, setComp] = useState(true); // Inicializa o estado com o valor de complete
+    const [isEditing, setIsEditing] = useState(false);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -41,15 +43,15 @@ function Task({ id, title, desc, complete }) {
                     Authorization: `Token ${token}`
                 }
             })
-            console.log(id)
             setComp(newCompValue)
         }catch(e){
             console.log(e)
         }
+
     };
 
     return (
-        <TaskStyle>
+        <TaskStyle complete={comp}>
             {comp 
                 ?
                 <FaRegCircle className='check' size={30} onClick={handleClick} />

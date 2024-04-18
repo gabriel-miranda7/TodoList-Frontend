@@ -44,6 +44,7 @@ export const Main = styled.div`
         transform: scale(1.2) rotate(-45deg);  // Aumenta e rotaciona o ícone
     }
 
+
     .actions {
         display: flex;
         align-items: center;
