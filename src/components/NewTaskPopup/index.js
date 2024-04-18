@@ -26,8 +26,6 @@ function NewTask({ todoList, onTaskSubmit }) {
                     Authorization: `Token ${token}`
                 }
             })
-        
-            //aqui!
         } catch (e) {
             console.log(e)
         }

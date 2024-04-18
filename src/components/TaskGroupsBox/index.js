@@ -7,7 +7,6 @@ import { Main, Substitute } from './styled';
 function TaskGroupsBox() {
     const token = localStorage.getItem('token');
     const [allTodoLists, setTodoLists] = useState([]);
-    const [loading, setLoading] = useState(true); 
     // array de histórico
     let latestTodoLists = [];
 
@@ -40,17 +39,11 @@ function TaskGroupsBox() {
                 setTodoLists(response.data);
             } catch (error) {
                 console.log(error);
-            } finally {
-                setLoading(false)
             }
         }
         
         getData();
     }, [token]);
-
-    if (loading) {
-        return; 
-    }
 
     // preenchendo o array de histórico com no máximo 5
     for (let i = 0; i < 5; ++i) {

@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaCog } from "react-icons/fa";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { IoIosSearch } from "react-icons/io";
-
 import { Main } from './styled';
 import Popup from '../SettingsPopup';
 
 function Header() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [popupStyle, setPopupStyle] = useState({ opacity: 0, transition: 'opacity 0.5s' });
+    const cogRef = useRef(null); //Pega a referência da engrenagem
+    useEffect(() => {
+        if (isPopupOpen) {
+            setPopupStyle({ opacity: 1, transition: 'opacity 0.4s' });
+        } else {
+            setPopupStyle({ opacity: 0});
+        }
+    }, [isPopupOpen]);
 
     const togglePopup = () => {
         setIsPopupOpen(!isPopupOpen);
@@ -21,7 +29,7 @@ function Header() {
             </div>
             {/*divs de ícones da navbar*/}
             <div className='actions'>
-                <section className='cog' onClick={togglePopup}>
+                <section ref={cogRef} className='cog' onClick={togglePopup}>
                     <FaCog className='cog-icon' size={30} />
                 </section>
                 <section className='trash'>
@@ -34,7 +42,7 @@ function Header() {
                     <IoIosSearch className='search-icon' size={30} />
                 </section>
             </div>
-            {isPopupOpen && <Popup onClose={togglePopup} />}
+            {isPopupOpen && <Popup onClose={togglePopup} style={popupStyle} iconRef={cogRef} />}
         </Main>
     );
 }
