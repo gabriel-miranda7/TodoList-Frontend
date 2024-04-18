@@ -4,10 +4,12 @@ import { IoAddCircle } from "react-icons/io5";
 import { TaskGroup } from './styled';
 import Task from '../Tasks';
 import NewTask from '../NewTaskPopup';
+import axios from '../../services/axios';
 
-function Tasks({ 
-    title, tasks_data 
-}) {
+function Tasks({ id, title: initialTitle, tasks_data }) 
+{   const token = localStorage.getItem('token')
+    const [title, setTitle] = useState(initialTitle)
+    const [isEditingTitle, setEditingTitle] = useState(false)
     const [isEditing, setEditing] = useState(false);
     const [tasks, setTasks] = useState(tasks_data);
 
@@ -15,6 +17,31 @@ function Tasks({
         let editing = isEditing;
         setEditing(!editing);
     }
+
+    const handleTitleClick = () => {
+        setEditingTitle(!isEditingTitle)
+    }
+
+    const handleTitleSubmit = async (event) => {
+        if (event.key === 'Enter') {
+            setEditingTitle(false);
+            let new_title = event.target.value
+            setTitle(event.target.value)
+            try{
+                await axios.put('todolistnew', {
+                    listId : id,
+                    newtitle: new_title
+                }, {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                })
+            } catch(err){
+                console.log(err)
+            }
+        }
+        
+    };
 
     const handleNewTask = (newTask) => {
         setTasks([...tasks, newTask]);
@@ -24,7 +51,11 @@ function Tasks({
 
     return (
         <TaskGroup>
-            <h1>{title}</h1>
+            <div>
+                {isEditingTitle ? <input onBlur={() => setEditingTitle(false)}
+                onKeyPress={handleTitleSubmit} autoFocus 
+                type='text' maxLength={30}/> : <h1 onClick={handleTitleClick}>{title}</h1>}
+            </div>
             {/* mapeando todas as tasks e exibindo cada uma */}
             {tasks.map((task) => {
                 return(

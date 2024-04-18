@@ -17,6 +17,12 @@ export const TaskGroup = styled.div`
         font-family: 'Poppins', sans-serif;
     }
 
+    input {
+        width: 100%;
+        font-family: 'Poppins', sans-serif;
+        font-size: 40px;
+        font-weight: 900px;
+    }
     .addIcon {
         color: ${addIcon};
     }

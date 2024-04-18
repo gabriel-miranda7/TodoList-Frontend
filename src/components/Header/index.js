@@ -30,7 +30,7 @@ function Header() {
             {/*divs de ícones da navbar*/}
             <div className='actions'>
                 <section ref={cogRef} className='cog' onClick={togglePopup}>
-                    <FaCog className='cog-icon' size={30} />
+                    <FaCog isOpen={isPopupOpen} className='cog-icon' size={30} />
                 </section>
                 <section className='trash'>
                     <BsFillTrash3Fill className='trash-icon' size={30} />

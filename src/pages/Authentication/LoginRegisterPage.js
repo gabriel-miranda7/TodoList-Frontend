@@ -37,6 +37,10 @@ function LoginRegisterPage() {
         // Redireciona para a página inicial
         window.location.href = '/dash';
       } catch (error) {
+        if(error.response && error.response.data['detail'] === 'Incorrect Password'){
+          setErrorMessage("Senha incorreta.")
+          return;
+        }
         if(error.response && error.response.status === 404){ //Tratamento de erros HTTP
             setErrorMessage("Esse usuário não existe");
             return;

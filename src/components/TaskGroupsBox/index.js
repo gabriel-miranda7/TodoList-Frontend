@@ -80,7 +80,7 @@ function TaskGroupsBox() {
                         // de acordo com o histórico de TodoLists
                         return (
                             <TaskGroup
-                                key={todolist.id}
+                                id = {todolist.id}
                                 title={todolist.title}
                                 tasks_data={todolist.todos}
                             />

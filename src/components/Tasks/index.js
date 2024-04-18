@@ -5,9 +5,13 @@ import { FaRegCircle } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
 import axios from '../../services/axios';
 import { TaskStyle } from './styled';
+import EditTask from '../EditTaskPopup';
 
 function Task({ id, title, desc, complete }) {
     const [comp, setComp] = useState(true); // Inicializa o estado com o valor de complete
+    const [isEditing, setIsEditing] = useState(false);
+    const [taskTitle, setTaskTitle] = useState(title);
+    const [taskDescription, setTaskDescription] = useState(desc);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -41,31 +45,62 @@ function Task({ id, title, desc, complete }) {
                     Authorization: `Token ${token}`
                 }
             })
-            console.log(id)
             setComp(newCompValue)
         }catch(e){
             console.log(e)
         }
+
     };
 
-    return (
-        <TaskStyle>
-            {comp 
-                ?
-                <FaRegCircle className='check' size={30} onClick={handleClick} />
-                :
-                <FiCheckCircle className='circle' size={30} onClick={handleClick} />
+    const handleEditting = () => {
+        setIsEditing(!isEditing)
+    }
+
+    const handleEditSubmit = async (taskId, newTitle, newDescription) => {
+        try{
+            await axios.put('/todonew', {
+                todoId: taskId,
+                title: newTitle,
+                description: newDescription
+            }, {
+                headers: {
+                    Authorization: `Token ${token}`
+                    }
+                })
+                setTaskTitle(newTitle);
+                setTaskDescription(newDescription);
+            }catch(e){
+                console.log(e)
             }
-            <p>{title}</p>
-            <FaRegEdit className='edit' size={30} />
-        </TaskStyle>
+        };
+
+    return (
+        <>
+            <TaskStyle complete={comp}>
+                {comp 
+                    ?
+                    <FaRegCircle className='check' size={30} onClick={handleClick} />
+                    :
+                    <FiCheckCircle className='circle' size={30} onClick={handleClick} />
+                }
+                <p>{taskTitle}</p>
+                <FaRegEdit className='edit' size={30} onClick={handleEditting}/>
+            </TaskStyle>
+            {isEditing && <EditTask 
+             title={taskTitle}
+             desc={taskDescription}
+             taskId={id} 
+             closeEditing={() => setIsEditing(false)}
+                onTaskSubmit={handleEditSubmit} />}
+        </>
     ); 
 };
 
 Task.propTypes = {
     title: PropTypes.string.isRequired,
     desc: PropTypes.string,
-    complete: PropTypes.bool.isRequired
+    complete: PropTypes.bool.isRequired,
+    openEditPopup: PropTypes.func.isRequired
 };
 
 export default Task;
