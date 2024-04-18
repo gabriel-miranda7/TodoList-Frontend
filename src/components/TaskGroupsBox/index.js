@@ -16,7 +16,7 @@ function TaskGroupsBox() {
             // criando nova tarefa
             axios.post('/todolistnew', 
             {
-                title: "Lista1"
+                title: "Primeira Lista"
             }, {
                 headers: {
                     Authorization: `Token ${token}`
@@ -48,14 +48,15 @@ function TaskGroupsBox() {
         getData();
     }, [token]);
 
-    if (loading) {
-        return; 
+    if (loading){
+        return (<h1>CARREGANDO...</h1>)
     }
 
     // preenchendo o array de histórico com no máximo 5
     for (let i = 0; i < 5; ++i) {
         latestTodoLists.push(allTodoLists[i])
     }
+    
 
     if(allTodoLists.length > 0) {
         return (

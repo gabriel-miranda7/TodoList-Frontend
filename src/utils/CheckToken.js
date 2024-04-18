@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../services/axios';
 
 const checkToken = async (token) => {  //Verifica se um token é válido através de uma requisição á API
     try {

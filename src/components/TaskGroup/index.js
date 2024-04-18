@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoAddCircle } from "react-icons/io5";
-
 import { TaskGroup } from './styled';
 import Task from '../Tasks';
 import NewTask from '../NewTaskPopup';
@@ -30,7 +29,7 @@ function Tasks({
             {tasks.map((task) => {
                 return(
                     <Task 
-                        key={task.id}
+                        id = {task.id}
                         title={task.title}
                         desc={task.description}
                         complete={task.complete}

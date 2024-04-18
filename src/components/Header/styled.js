@@ -46,7 +46,12 @@ export const Main = styled.div`
         .search-icon {
             color: ${iconColor};
             cursor: pointer;
+            transition: transform 0.3s ease;
         }
+    }
+
+    .cog-icon:hover {
+        transform: scale(1.2) rotate(-45deg);  // Aumenta e rotaciona o ícone
     }
 
     .actions {
