@@ -22,6 +22,7 @@ export const TaskStyle = styled.div`
         transition: color 0.3s ease, transform 0.3s ease;
     }
 
+    .check:hover,
     .edit:hover{
         transform: scale(1.2)
     }

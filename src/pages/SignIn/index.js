@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
 import { toast } from 'react-toastify';
 import checkToken from '../../utils/CheckToken';
 
@@ -23,6 +22,8 @@ function SignIn() {
       const isValidToken = await checkToken(token); //Manda pra API para verificar
       if (isValidToken) { //Se o token é válido, manda pra dash
         window.location.href = '/dash';
+      }else{
+        localStorage.removeItem('token')
       }
     };
 

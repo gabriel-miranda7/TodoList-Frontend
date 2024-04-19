@@ -7,7 +7,7 @@ import axios from '../../services/axios';
 import { TaskStyle } from './styled';
 import EditTask from '../EditTaskPopup';
 
-function Task({ id, title, desc, complete }) {
+function Task({ id, title, desc, complete, onDelete }) {
     const [comp, setComp] = useState(true); // Inicializa o estado com o valor de complete
     const [isEditing, setIsEditing] = useState(false);
     const [taskTitle, setTaskTitle] = useState(title);
@@ -32,6 +32,9 @@ function Task({ id, title, desc, complete }) {
         fetchCompleteStatus(); 
     }, [token, id]);
     
+    const handleDelete = () => {
+        onDelete(id);
+    }
 
     const handleClick = async () => { // Obtém o valor atualizado de comp de acordo com o FrontEnd
         let newCompValue = !comp;
@@ -91,7 +94,7 @@ function Task({ id, title, desc, complete }) {
              desc={taskDescription}
              taskId={id} 
              closeEditing={() => setIsEditing(false)}
-                onTaskSubmit={handleEditSubmit} />}
+                onTaskSubmit={handleEditSubmit} onDelete={handleDelete} />}
         </>
     ); 
 };
