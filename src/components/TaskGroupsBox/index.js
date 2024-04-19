@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { IoAddCircle } from "react-icons/io5";
 import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
@@ -79,11 +79,16 @@ function TaskGroupsBox() {
                         // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
                         // de acordo com o histórico de TodoLists
                         return (
+                            <>
                             <TaskGroup
                                 id = {todolist.id}
                                 title={todolist.title}
                                 tasks_data={todolist.todos}
                             />
+                            <div className='addNewTodoList'>
+                            <IoAddCircle className='addIcon' size={40} />
+                            </div>
+                            </>
                         )
                     })
                 }

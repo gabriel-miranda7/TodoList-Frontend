@@ -26,6 +26,9 @@ function Tasks({ id, title: initialTitle, tasks_data })
         if (event.key === 'Enter') {
             setEditingTitle(false);
             let new_title = event.target.value
+            if (new_title === ''){
+                return;
+            }
             setTitle(event.target.value)
             try{
                 await axios.put('todolistnew', {
@@ -54,7 +57,7 @@ function Tasks({ id, title: initialTitle, tasks_data })
             <div>
                 {isEditingTitle ? <input onBlur={() => setEditingTitle(false)}
                 onKeyPress={handleTitleSubmit} autoFocus 
-                type='text' maxLength={30}/> : <h1 onClick={handleTitleClick}>{title}</h1>}
+                type='text' maxLength={30} defaultValue={title}/> : <h1 onClick={handleTitleClick}>{title}</h1>}
             </div>
             {/* mapeando todas as tasks e exibindo cada uma */}
             {tasks.map((task) => {

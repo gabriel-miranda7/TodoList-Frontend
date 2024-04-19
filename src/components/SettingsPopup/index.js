@@ -33,6 +33,7 @@ function Popup({ onClose, style, iconRef }) {
             <div className='barra'></div>
             <button onClick={logoutUser}>Fazer Log Out</button>
             <button>Alterar usuário</button>
+            <button>Alternar Dark Mode</button>
             <button onClick={onClose}>Fechar</button>
         </Box>
     )

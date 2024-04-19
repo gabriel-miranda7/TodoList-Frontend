@@ -1,11 +1,24 @@
 import styled from 'styled-components';
-import { iconColor } from '../../config/colors';
+import { iconColor, addIcon } from '../../config/colors';
+
 
 export const Main = styled.main`
     display: flex;
     flex: 1 1 100vw;
     width: 100vw;
     height: calc(100vh - 140px);
+
+    .addIcon {
+        color: ${addIcon};
+    }
+
+    .addNewTodoList{
+        cursor: pointer;
+
+        display:flex;
+        
+        align-items: center;
+    }
 
     .boas_vindas {
         display: flex;
@@ -24,7 +37,9 @@ export const Main = styled.main`
             font-size: 50px;
             font-family: 'Poppins', sans-serif;
         }
+
     }
+
 `;
 
 export const Substitute = styled.main`

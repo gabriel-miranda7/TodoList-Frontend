@@ -5,13 +5,13 @@ export const Box = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    position: fixed;
-    top: 50%;
+    position: fixed; /*Mudar essa posição fixa para uma relativa, melhorando a responsividade */
+    top: 53%;
     left: 50%;
     transform: translate(170%, -120%);
     width: 15%;
     max-width: 800px; /* Defina o tamanho máximo para o popup */
-    height: 30%;
+    height: fit-content;
     max-height: 600px; /* Defina a altura máxima para o popup */
     overflow: auto; /* Adicione rolagem se o conteúdo do popup for maior que a altura máxima */
     padding: 20px;

@@ -16,6 +16,7 @@ export const Main = styled.div`
         padding-left: 60px;
         color: #fff;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     .cog-box,
@@ -50,7 +51,7 @@ export const Main = styled.div`
     }
 
     .cog-icon:hover {
-        transform: scale(1.2) rotate(-45deg);  // Aumenta e rotaciona o ícone
+        transform: scale(1.2) rotate(-145deg);  // Aumenta e rotaciona o ícone
     }
 
 

@@ -25,5 +25,6 @@ export const TaskGroup = styled.div`
     }
     .addIcon {
         color: ${addIcon};
+        cursor: pointer;
     }
 `;
