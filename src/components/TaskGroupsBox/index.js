@@ -3,6 +3,7 @@ import { IoAddCircle } from "react-icons/io5";
 import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
+import { toast } from 'react-toastify';
 
 function TaskGroupsBox() {
     const token = localStorage.getItem('token');
@@ -13,7 +14,7 @@ function TaskGroupsBox() {
 
     const firstList = (e) => {
         try {
-            // criando nova tarefa
+            // criando nova lista de tarefas
             axios.post('/todolistnew', 
             {
                 title: "Primeira Lista"
@@ -24,8 +25,10 @@ function TaskGroupsBox() {
             }).then(response => {
                 window.location.reload();
             })
-        } catch (e) {
-            console.log(e)
+        } catch (error) {
+            if(error.response && error.response.status == 400) {
+                return toast.error('Já existe uma lista com esse nome.')
+            }
         }
     }
 
@@ -58,43 +61,43 @@ function TaskGroupsBox() {
     }
     
 
-    if(allTodoLists.length > 0) {
+    if(allTodoLists.length > 4) {
         return (
             <Main>
-                {allTodoLists.length > 5 
-                    ? // se o número de grupos for maior que 5, usa o array de histórico
-                    latestTodoLists.map((todolist) => {
+                {latestTodoLists.map((todolist) => {
                         // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
                         // de acordo com o histórico de TodoLists
-                        return (
-                            <TaskGroup
-                                key={todolist.id}
-                                title={todolist.title}
-                                tasks_data={todolist.todos}
-                            />
-                        )
-                    })
-                    : // se for 5 ou menor, usa o array com todos os grupos
-                    allTodoLists.map((todolist) => {
-                        // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
-                        // de acordo com o histórico de TodoLists
-                        return (
-                            <>
-                            <TaskGroup
-                                id = {todolist.id}
-                                title={todolist.title}
-                                tasks_data={todolist.todos}
-                            />
-                            <div className='addNewTodoList'>
-                            <IoAddCircle className='addIcon' size={40} />
-                            </div>
-                            </>
-                        )
-                    })
-                }
+                    return (
+                        <TaskGroup
+                            key={todolist.id}
+                            title={todolist.title}
+                            tasks_data={todolist.todos}
+                        />
+                    )
+                })}
             </Main>
         );
-    } else {
+    } 
+    else if(allTodoLists.length > 0 && allTodoLists.length < 5) {
+        return(
+            <Main>
+                {allTodoLists.map((todolist) => {
+                    // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
+                    // de acordo com o histórico de TodoLists
+                    return (
+                        <TaskGroup
+                            id = {todolist.id}
+                            title={todolist.title}
+                            tasks_data={todolist.todos}
+                        />
+                        )
+                })}
+                <div className='addNewTodoList'>
+                    <IoAddCircle className='addIcon' size={40} onClick={firstList} />
+                </div>
+            </Main>
+        )
+    } else if(allTodoLists.length == 0) {
         return (
             <Substitute>
                 <section className='boas_vindas'>
