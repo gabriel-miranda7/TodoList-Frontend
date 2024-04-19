@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IoAddCircle } from "react-icons/io5";
 import { TaskGroup } from './styled';
@@ -6,12 +6,19 @@ import Task from '../Tasks';
 import NewTask from '../NewTaskPopup';
 import axios from '../../services/axios';
 
-function Tasks({ id, title: initialTitle, tasks_data }) 
+function Tasks({ id, title: initialTitle, tasks_data  }) 
 {   const token = localStorage.getItem('token')
     const [title, setTitle] = useState(initialTitle)
     const [isEditingTitle, setEditingTitle] = useState(false)
     const [isEditing, setEditing] = useState(false);
     const [tasks, setTasks] = useState(tasks_data);
+
+    useEffect(() => {
+        // Filtra as tarefas cujo isOnTrashBin é false
+        const filteredTasks = tasks_data.filter(task => !task.isOnTrashBin);
+        setTasks(filteredTasks);
+    }, [tasks_data]);
+
 
     const handleClick = () => {
         let editing = isEditing;
@@ -52,6 +59,21 @@ function Tasks({ id, title: initialTitle, tasks_data })
 
     }
 
+    const handleDeleteTask = async (taskId) => {
+        setTasks(tasks.filter(task => task.id !== taskId));
+        try{
+            await axios.put('trashaddremove', {
+                todoId : taskId
+            }, {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+        } catch(e) {
+            console.log(e)
+        }
+    };
+
     return (
         <TaskGroup>
             <div>
@@ -63,10 +85,12 @@ function Tasks({ id, title: initialTitle, tasks_data })
             {tasks.map((task) => {
                 return(
                     <Task 
+                        key={task.id}
                         id = {task.id}
                         title={task.title}
                         desc={task.description}
                         complete={task.complete}
+                        onDelete={handleDeleteTask}
                     />
                 )
             })}
