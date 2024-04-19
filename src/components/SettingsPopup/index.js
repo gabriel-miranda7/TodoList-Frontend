@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { Box } from './styled';
 
-function Popup({ onClose, style, iconRef }) {
+function SettingsPopup({ onClose, style, iconRef }) {
     const popupRef = useRef(null);
 
     const logoutUser = () => {
@@ -39,8 +39,8 @@ function Popup({ onClose, style, iconRef }) {
     )
 }
 
-Popup.propTypes = {
+SettingsPopup.propTypes = {
     onClose: PropTypes.func.isRequired
 }
 
-export default Popup;
+export default SettingsPopup;
