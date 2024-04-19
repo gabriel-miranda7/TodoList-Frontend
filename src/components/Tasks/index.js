@@ -36,12 +36,12 @@ function Task({ id, title, desc, complete, onDelete }) {
         onDelete(id);
     }
 
-    const handleClick = async () => { // Obtém o valor atualizado de comp de acordo com o FrontEnd
+    const handleClick = async (taskId) => { // Obtém o valor atualizado de comp de acordo com o FrontEnd
         let newCompValue = !comp;
         try{
             await axios.put('/todonew', { //Envia esse novo valor para a API
                 title: title,
-                todoId: id,
+                todoId: taskId,
                 complete: newCompValue
             }, {
                 headers: {
@@ -82,9 +82,9 @@ function Task({ id, title, desc, complete, onDelete }) {
             <TaskStyle complete={comp}>
                 {comp 
                     ?
-                    <FaRegCircle className='check' size={30} onClick={handleClick} />
+                    <FaRegCircle className='check' size={30} onClick={() => handleClick(id)}  />
                     :
-                    <FiCheckCircle className='circle' size={30} onClick={handleClick} />
+                    <FiCheckCircle className='circle' size={30} onClick={() => handleClick(id)}  />
                 }
                 <p>{taskTitle}</p>
                 <FaRegEdit className='edit' size={30} onClick={handleEditting}/>

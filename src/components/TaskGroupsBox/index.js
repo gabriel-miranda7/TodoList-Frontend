@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IoAddCircle } from "react-icons/io5";
+
 import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
@@ -16,18 +16,18 @@ function TaskGroupsBox() {
             // criando nova tarefa
             axios.post('/todolistnew', 
             {
-                title: "Primeira Lista"
+                title: "Lista1"
             }, {
                 headers: {
                     Authorization: `Token ${token}`
                 }
-            }).then(response => {
-                window.location.reload();
             })
+                window.location.reload();
         } catch (e) {
             console.log(e)
         }
     }
+
 
     useEffect(() => {
         async function getData() {
@@ -48,15 +48,14 @@ function TaskGroupsBox() {
         getData();
     }, [token]);
 
-    if (loading){
-        return (<h1>CARREGANDO...</h1>)
+    if (loading) {
+        return; 
     }
 
     // preenchendo o array de histórico com no máximo 5
     for (let i = 0; i < 5; ++i) {
         latestTodoLists.push(allTodoLists[i])
     }
-    
 
     if(allTodoLists.length > 0) {
         return (
@@ -79,16 +78,11 @@ function TaskGroupsBox() {
                         // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
                         // de acordo com o histórico de TodoLists
                         return (
-                            <>
                             <TaskGroup
-                                id = {todolist.id}
+                                key={todolist.id}
                                 title={todolist.title}
                                 tasks_data={todolist.todos}
                             />
-                            <div className='addNewTodoList'>
-                            <IoAddCircle className='addIcon' size={40} />
-                            </div>
-                            </>
                         )
                     })
                 }

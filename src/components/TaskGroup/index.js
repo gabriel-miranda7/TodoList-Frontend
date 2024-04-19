@@ -54,7 +54,7 @@ function Tasks({ id, title: initialTitle, tasks_data  })
     };
 
     const handleNewTask = (newTask) => {
-        setTasks([...tasks, newTask]);
+        setTasks(prevTasks => [...prevTasks, newTask]);
         setEditing(false)
 
     }
@@ -85,7 +85,6 @@ function Tasks({ id, title: initialTitle, tasks_data  })
             {tasks.map((task) => {
                 return(
                     <Task 
-                        key={task.id}
                         id = {task.id}
                         title={task.title}
                         desc={task.description}

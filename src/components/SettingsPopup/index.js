@@ -1,16 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-
 import { Box } from './styled';
 
 function Popup({ onClose, style, iconRef }) {
     const popupRef = useRef(null);
-
-    const logoutUser = () => {
-        localStorage.removeItem('token'); // Remover o token do localStorage
-        window.location.href = 'auth' //Envia o usuário para autenticação em caso de logoff
-        onClose(); // Fechar o popup após o logout
-    }
 
     useEffect(() => {  //Fechar Popup em caso de clique fora da box.
         function handleClickOutside(event) {
@@ -27,6 +20,12 @@ function Popup({ onClose, style, iconRef }) {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [onClose, iconRef]);
+
+    const logoutUser = () => {
+        localStorage.clear() // Remover o token do localStorage
+        window.location.href = 'auth' //Envia o usuário para autenticação em caso de logoff
+        onClose(); // Fechar o popup após o logout
+    }
 
     return (
         <Box style={style} ref={popupRef}>
