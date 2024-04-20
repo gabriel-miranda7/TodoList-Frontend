@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IoAddCircle } from "react-icons/io5";
+
 import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
@@ -17,12 +17,12 @@ function TaskGroupsBox() {
             // criando nova lista de tarefas
             axios.post('/todolistnew', 
             {
-                title: "Primeira Lista"
+                title: "Lista1"
             }, {
                 headers: {
                     Authorization: `Token ${token}`
                 }
-            }).then(response => {
+            })
                 window.location.reload();
             })
         } catch (error) {
@@ -31,6 +31,7 @@ function TaskGroupsBox() {
             }
         }
     }
+
 
     useEffect(() => {
         async function getData() {
@@ -51,8 +52,8 @@ function TaskGroupsBox() {
         getData();
     }, [token]);
 
-    if (loading){
-        return (<h1>CARREGANDO...</h1>)
+    if (loading) {
+        return; 
     }
 
     // preenchendo o array de histórico com no máximo 5

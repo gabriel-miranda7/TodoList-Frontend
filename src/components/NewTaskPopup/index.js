@@ -8,7 +8,7 @@ function NewTask({ todoList, onTaskSubmit }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const newTask = {
@@ -16,16 +16,17 @@ function NewTask({ todoList, onTaskSubmit }) {
                 description : description,
                 complete: false
             };
-            onTaskSubmit(newTask);
-            // criando nova tarefa
             const token = localStorage.getItem('token');
-            axios.post('/todonew', {
+            let responseGetId = await axios.post('/todonew', {
                 title, description, todoList
             }, {
                 headers: {
                     Authorization: `Token ${token}`
                 }
             })
+            newTask['id'] = responseGetId.data.id;
+            // criando nova tarefa
+            onTaskSubmit(newTask);
         } catch (e) {
             console.log(e)
         }

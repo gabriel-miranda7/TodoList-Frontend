@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import checkToken from '../../utils/CheckToken';
-
+import { useNavigate } from 'react-router-dom';
 import axios from '../../services/axios';
 import { Main } from './styled';
 
 function SignIn() {
     const [isRegistering, setRegistering] = useState(false)
-    // const [rememberMe, setRemember] = useState(false)
+    const [rememberMe, setRemember] = useState(false)
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -26,12 +27,15 @@ function SignIn() {
         localStorage.removeItem('token')
       }
     };
+    
 
     checkTokenAndRedirect();
   }, []);
 
     const handleRemember = () => {
-        // setRemember(!rememberMe)
+        setRemember(!rememberMe)
+        let MustRemember = !rememberMe
+        localStorage.setItem('mustRemember', MustRemember)
     }
 
     const handleToggle = () => {
@@ -59,9 +63,9 @@ function SignIn() {
                 response = await axios.post('authenticate/login', formData)
             }
 
-            localStorage.setItem('token', response.data)
+            localStorage.setItem('token', response.data);
+            navigate('/dash')
 
-            window.location.href = '/dash'
         } catch(error) {
             if (error.response && error.response.data['detail'] === 'Incorrect Password'){
                 toast.error("Senha incorreta.");
