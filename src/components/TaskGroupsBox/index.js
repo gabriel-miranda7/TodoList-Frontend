@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { IoAddCircle } from "react-icons/io5";
+import { toast } from 'react-toastify';
+
 import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
-import { toast } from 'react-toastify';
 import NewList from '../NewListPopup';
 
 function TaskGroupsBox() {
@@ -71,6 +72,8 @@ function TaskGroupsBox() {
     for (let i = 0; i < 5; ++i) {
         latestTodoLists.push(allTodoLists[i])
     }
+
+    console.log(latestTodoLists)
     
 
     if(allTodoLists.length > 4) {

@@ -3,11 +3,15 @@ import { FaCog } from "react-icons/fa";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { IoIosSearch } from "react-icons/io";
+
+import axios from '../../services/axios';
 import { Main } from './styled';
 import SettingsPopup from '../SettingsPopup';
-import TrashPopup from '../TrashPopup';
+import TrashSidebar from '../TrashSidebar';
 
 function Header() {
+    const token = localStorage.getItem('token');
+    const [tasks, setTasks] = useState([]);
     const [isSettingsOpen, setisSettingsOpen] = useState(false);
     const [isTrashOpen, setisTrashOpen] = useState(false);
     const [popupStyle, setPopupStyle] = useState({ opacity: 0, transition: 'opacity 0.5s' });
@@ -21,6 +25,24 @@ function Header() {
         }
     }, [isSettingsOpen, isTrashOpen]);
 
+    useEffect(() => {
+        async function getData(){
+            try {
+                const response = await axios.get('/todolists', {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                })
+
+                setTasks(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getData();
+    }, [])
+
     const toggleSettings = () => {
         setisSettingsOpen(!isSettingsOpen);
         setisTrashOpen(false);
@@ -29,6 +51,22 @@ function Header() {
     const toggleTrash = () => {
         setisTrashOpen(!isTrashOpen);
         setisSettingsOpen(false);
+    };
+
+    const handleDeleteTask = async (taskId) => {
+        setTasks(tasks.filter(task => task.id !== taskId));
+        alert(taskId)
+        try{
+            await axios.put('trashaddremove', {
+                todoId : taskId
+            }, {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+        } catch(e) {
+            console.log(e)
+        }
     };
 
     return (
@@ -51,7 +89,8 @@ function Header() {
                     <IoIosSearch className='search-icon' size={30} />
                 </section>
             </div>
-            {isTrashOpen && <TrashPopup onClose={toggleTrash} style={popupStyle} iconRef={cogRef} />}
+            {isTrashOpen && <TrashSidebar onClose={toggleTrash} style={popupStyle} 
+                            iconRef={cogRef} taskLists={tasks} onDelete={handleDeleteTask} />}
             {isSettingsOpen && <SettingsPopup onClose={toggleSettings} style={popupStyle} iconRef={cogRef} />}
         </Main>
     );

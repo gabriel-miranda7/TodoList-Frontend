@@ -13,12 +13,11 @@ function Tasks({ id, title: initialTitle, tasks_data  })
     const [isEditing, setEditing] = useState(false);
     const [tasks, setTasks] = useState(tasks_data);
 
-    useEffect(() => {
-        // Filtra as tarefas cujo isOnTrashBin é false
-        const filteredTasks = tasks_data.filter(task => !task.isOnTrashBin);
-        setTasks(filteredTasks);
-    }, [tasks_data]);
-
+    // useEffect(() => {
+    //     // Filtra as tarefas cujo isOnTrashBin é false
+    //     const filteredTasks = tasks_data.filter(task => task.isOnTrashBin === false);
+    //     setTasks(filteredTasks);
+    // }, [tasks_data]);
 
     const handleClick = () => {
         let editing = isEditing;
@@ -83,7 +82,7 @@ function Tasks({ id, title: initialTitle, tasks_data  })
                 type='text' maxLength={30} defaultValue={title}/> : <h1 onClick={handleTitleClick}>{title}</h1>}
             </div>
             {/* mapeando todas as tasks e exibindo cada uma */}
-            {tasks.map((task) => {
+            {tasks_data.filter(task => task.isOnTrashBin === false).map(task => {
                 return(
                     <Task 
                         id = {task.id}
