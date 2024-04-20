@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { IoAddCircle } from "react-icons/io5";
 import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
@@ -12,21 +12,21 @@ function TaskGroupsBox() {
     // array de histórico
     let latestTodoLists = [];
 
-    const firstList = (e) => {
+    const firstList = async (e) => {
         try {
             // criando nova lista de tarefas
-            axios.post('/todolistnew', 
+            await axios.post('/todolistnew', 
             {
-                title: "Lista1"
+                title: `Lista 1`
             }, {
                 headers: {
                     Authorization: `Token ${token}`
                 }
             })
                 window.location.reload();
-            })
-        } catch (error) {
-            if(error.response && error.response.status == 400) {
+            }
+        catch (error) {
+            if(error.response && error.response.status === 400) {
                 return toast.error('Já existe uma lista com esse nome.')
             }
         }
@@ -98,7 +98,7 @@ function TaskGroupsBox() {
                 </div>
             </Main>
         )
-    } else if(allTodoLists.length == 0) {
+    } else if(allTodoLists.length === 0) {
         return (
             <Substitute>
                 <section className='boas_vindas'>

@@ -103,7 +103,7 @@ Task.propTypes = {
     title: PropTypes.string.isRequired,
     desc: PropTypes.string,
     complete: PropTypes.bool.isRequired,
-    openEditPopup: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired
 };
 
 export default Task;
