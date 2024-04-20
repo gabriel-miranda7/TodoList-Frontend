@@ -8,22 +8,23 @@ import axios from '../../services/axios';
 import { Main } from './styled';
 import SettingsPopup from '../SettingsPopup';
 import TrashSidebar from '../TrashSidebar';
+import ClipboardSidebar from '../ClipboardSidebar';
 
 function Header() {
     const token = localStorage.getItem('token');
     const [tasks, setTasks] = useState([]);
     const [isSettingsOpen, setisSettingsOpen] = useState(false);
     const [isTrashOpen, setisTrashOpen] = useState(false);
+    const [isClipboardOpen, setisClipboardOpen] = useState(false);
     const [popupStyle, setPopupStyle] = useState({ opacity: 0, transition: 'opacity 0.5s' });
     const cogRef = useRef(null); //Pega a referência da engrenagem
-    const trashRef = useRef(null);
     useEffect(() => {
-        if (isSettingsOpen || isTrashOpen) {
+        if (isSettingsOpen || isTrashOpen || isClipboardOpen) {
             setPopupStyle({ opacity: 1, transition: 'opacity 0.4s' });
         } else {
             setPopupStyle({ opacity: 0});
         }
-    }, [isSettingsOpen, isTrashOpen]);
+    }, [isSettingsOpen, isTrashOpen, isClipboardOpen]);
 
     useEffect(() => {
         async function getData(){
@@ -46,11 +47,19 @@ function Header() {
     const toggleSettings = () => {
         setisSettingsOpen(!isSettingsOpen);
         setisTrashOpen(false);
+        setisClipboardOpen(false);
     };
 
     const toggleTrash = () => {
         setisTrashOpen(!isTrashOpen);
         setisSettingsOpen(false);
+        setisClipboardOpen(false);
+    };
+
+    const toggleClipboard = () => {
+        setisClipboardOpen(!isClipboardOpen);
+        setisSettingsOpen(false);
+        setisTrashOpen(false);
     };
 
     const handleDeleteTask = async (taskId) => {
@@ -72,17 +81,17 @@ function Header() {
     return (
         <Main>
             <div className='title'>
-                <p>My To-Do List</p>
+                <p>My To-Do Lists</p>
             </div>
             {/*divs de ícones da navbar*/}
             <div className='actions'>
                 <section ref={cogRef} className='cog' id='cog' onClick={toggleSettings}>
                     <FaCog isOpen={isSettingsOpen} className='cog-icon' size={30} />
                 </section>
-                <section ref={trashRef} className='trash' onClick={toggleTrash} >
+                <section className='trash' onClick={toggleTrash} >
                     <BsFillTrash3Fill isOpen={isTrashOpen} className='trash-icon' size={30} />
                 </section>
-                <section className='clipboard' id='clipboard'>
+                <section className='clipboard' id='clipboard' onClick={toggleClipboard}>
                     <LiaClipboardListSolid className='clipboard-icon' size={30} />
                 </section>
                 <section className='search'>
@@ -90,8 +99,9 @@ function Header() {
                 </section>
             </div>
             {isTrashOpen && <TrashSidebar onClose={toggleTrash} style={popupStyle} 
-                            iconRef={cogRef} taskLists={tasks} onDelete={handleDeleteTask} />}
+                            taskLists={tasks} onDelete={handleDeleteTask} />}
             {isSettingsOpen && <SettingsPopup onClose={toggleSettings} style={popupStyle} iconRef={cogRef} />}
+            {isClipboardOpen && <ClipboardSidebar taskLists={tasks} onClose={toggleClipboard} />}
         </Main>
     );
 }

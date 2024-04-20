@@ -13,8 +13,7 @@ function TaskGroupsBox() {
     const [loading, setLoading] = useState(true); 
     const [isCreating, setCreating] = useState(false);
 
-    // array de histórico
-    let latestTodoLists = [];
+    const latestTodoLists = [];
 
     function handleCreate(){
         setCreating(!isCreating)
@@ -44,7 +43,6 @@ function TaskGroupsBox() {
         }
     }
 
-
     useEffect(() => {
         async function getData() {
             try {
@@ -68,19 +66,22 @@ function TaskGroupsBox() {
         return; 
     }
 
-    // preenchendo o array de histórico com no máximo 5
     for (let i = 0; i < 5; ++i) {
         latestTodoLists.push(allTodoLists[i])
     }
 
-    console.log(latestTodoLists)
-    
+    const todolists = localStorage.getItem('todolists')
+    if(todolists === null){
+        localStorage.setItem('todolists', JSON.stringify(latestTodoLists))
+    }
+    let visibleLists = localStorage.getItem('todolists')
+    visibleLists = JSON.parse(visibleLists)
 
-    if(allTodoLists.length > 4) {
+    if(allTodoLists.length > 5 && visibleLists !== null) {
         return (
             <Main>
                 {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
-                {latestTodoLists.map((todolist) => {
+                {visibleLists.map((todolist) => {
                         // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
                         // de acordo com o histórico de TodoLists
                     return (
@@ -94,7 +95,7 @@ function TaskGroupsBox() {
             </Main>
         );
     } 
-    else if(allTodoLists.length > 0 && allTodoLists.length < 5) {
+    else if(allTodoLists.length > 0 && allTodoLists.length < 6) {
         return(
             <Main>
                 {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
@@ -109,9 +110,11 @@ function TaskGroupsBox() {
                         />
                         )
                 })}
-                <div className='addNewTodoList'>
-                    <IoAddCircle className='addIcon' size={40} onClick={handleCreate} />
-                </div>
+                {allTodoLists.length < 5 &&
+                    <div className='addNewTodoList'>
+                        <IoAddCircle className='addIcon' size={40} onClick={handleCreate} />
+                    </div>
+                }
             </Main>
         )
     } else if(allTodoLists.length === 0) {

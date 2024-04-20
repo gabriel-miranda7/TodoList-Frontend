@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { barColor, loginBgDark } from '../../config/colors';
 
+
 export const Sidebar = styled.div`
     position: absolute;
     display: flex;
@@ -34,6 +35,23 @@ export const Sidebar = styled.div`
         height: calc(100% - 140px);
         padding: 30px;
         gap: 15px;
+
+        button {
+            display: flex;
+            width: 100%;
+            height: 50px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            filter: brightness(80%);
+        }
 
         section {
             display: flex;
