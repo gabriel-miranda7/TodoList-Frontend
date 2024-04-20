@@ -54,13 +54,14 @@ function Tasks({ id, title: initialTitle, tasks_data  })
     };
 
     const handleNewTask = (newTask) => {
-        setTasks(prevTasks => [...prevTasks, newTask]);
+        setTasks(tasks => [...tasks, newTask]);
         setEditing(false)
 
     }
 
     const handleDeleteTask = async (taskId) => {
         setTasks(tasks.filter(task => task.id !== taskId));
+        alert(taskId)
         try{
             await axios.put('trashaddremove', {
                 todoId : taskId

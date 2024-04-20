@@ -65,7 +65,7 @@ function SignIn() {
 
             localStorage.setItem('token', response.data);
             navigate('/dash')
-
+            console.log(localStorage.getItem('token'))
         } catch(error) {
             if (error.response && error.response.data['detail'] === 'Incorrect Password'){
                 toast.error("Senha incorreta.");

@@ -4,20 +4,31 @@ import axios from '../../services/axios';
 import TaskGroup from '../TaskGroup';
 import { Main, Substitute } from './styled';
 import { toast } from 'react-toastify';
+import NewList from '../NewListPopup';
 
 function TaskGroupsBox() {
     const token = localStorage.getItem('token');
     const [allTodoLists, setTodoLists] = useState([]);
     const [loading, setLoading] = useState(true); 
+    const [isCreating, setCreating] = useState(false);
+
     // array de histórico
     let latestTodoLists = [];
 
-    const firstList = async (e) => {
+    function handleCreate(){
+        setCreating(!isCreating)
+    }
+
+    function closePopup(){
+        setCreating(false)
+    }
+
+    const newList = async (titulo) => {
         try {
             // criando nova lista de tarefas
             await axios.post('/todolistnew', 
             {
-                title: `Lista 1`
+                title: titulo
             }, {
                 headers: {
                     Authorization: `Token ${token}`
@@ -65,6 +76,7 @@ function TaskGroupsBox() {
     if(allTodoLists.length > 4) {
         return (
             <Main>
+                {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
                 {latestTodoLists.map((todolist) => {
                         // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
                         // de acordo com o histórico de TodoLists
@@ -82,6 +94,7 @@ function TaskGroupsBox() {
     else if(allTodoLists.length > 0 && allTodoLists.length < 5) {
         return(
             <Main>
+                {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
                 {allTodoLists.map((todolist) => {
                     // essa função vai mapear todos os grupos de Todos e exibi-los com limite de 5
                     // de acordo com o histórico de TodoLists
@@ -94,17 +107,18 @@ function TaskGroupsBox() {
                         )
                 })}
                 <div className='addNewTodoList'>
-                    <IoAddCircle className='addIcon' size={40} onClick={firstList} />
+                    <IoAddCircle className='addIcon' size={40} onClick={handleCreate} />
                 </div>
             </Main>
         )
     } else if(allTodoLists.length === 0) {
         return (
             <Substitute>
+                {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
                 <section className='boas_vindas'>
                     <img src="images/boas-vindas.png" alt="boas vindas" />
                     <h1>Crie uma To-Do list e comece já a organizar o seu dia-a dia</h1>
-                    <button type='submit' onClick={firstList}>Criar</button>
+                    <button type='submit' onClick={handleCreate}>Criar</button>
                 </section>
             </Substitute>
         )
