@@ -17,6 +17,7 @@ function Header() {
     const [isTrashOpen, setisTrashOpen] = useState(false);
     const [isClipboardOpen, setisClipboardOpen] = useState(false);
     const [popupStyle, setPopupStyle] = useState({ opacity: 0, transition: 'opacity 0.5s' });
+    const [isSearching, setIsSearching] = useState(false);
     const cogRef = useRef(null); //Pega a referência da engrenagem
     useEffect(() => {
         if (isSettingsOpen || isTrashOpen || isClipboardOpen) {
@@ -54,6 +55,10 @@ function Header() {
         setisTrashOpen(!isTrashOpen);
         setisSettingsOpen(false);
         setisClipboardOpen(false);
+    };
+
+    const toggleSearching = () => {
+        setIsSearching(!isSearching)
     };
 
     const toggleClipboard = () => {
@@ -94,7 +99,7 @@ function Header() {
                 <section className='clipboard' id='clipboard' onClick={toggleClipboard}>
                     <LiaClipboardListSolid className='clipboard-icon' size={30} />
                 </section>
-                <section className='search'>
+                <section className='search' onClick={toggleSearching}>
                     <IoIosSearch className='search-icon' size={30} />
                 </section>
             </div>
