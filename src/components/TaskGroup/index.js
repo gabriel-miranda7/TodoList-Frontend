@@ -98,6 +98,7 @@ function Tasks({ id, title: initialTitle, tasks_data  })
                 <NewTask 
                     todoList={title}
                     onTaskSubmit={handleNewTask}
+                    onClose={handleClick}
                 />
             )}
         </TaskGroup>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios from '../../services/axios';
 import { Box } from './styled';
 
-function NewTask({ todoList, onTaskSubmit }) {
+function NewTask({ todoList, onTaskSubmit, onClose }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
@@ -27,10 +27,19 @@ function NewTask({ todoList, onTaskSubmit }) {
             newTask['id'] = responseGetId.data.id;
             // criando nova tarefa
             onTaskSubmit(newTask);
+            // pegando o histórico do localStorage
+            const history = JSON.parse(localStorage.getItem('todolists'))
+            // atualizando o histórico no localStorage
+            history.forEach(list => {
+                if(list.title === todoList){
+                    list.todos.push(responseGetId.data)
+                }
+            });
+            // enviando a versão atualizada para o localStorage
+            localStorage.setItem('todolists', JSON.stringify(history))
         } catch (e) {
             console.log(e)
         }
-
     }
 
     return(
@@ -43,13 +52,15 @@ function NewTask({ todoList, onTaskSubmit }) {
                     Descrição: <textarea onChange={(e) => setDescription(e.target.value)} />
                 </section>
                 <button type='submit'>Criar</button>
+                <button onClick={onClose}>Fechar</button>
             </form>
         </Box>
     )
 }
 
 NewTask.propTypes = {
-    todoList: PropTypes.string.isRequired
+    todoList: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired
 }
 
 export default NewTask;

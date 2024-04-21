@@ -44,21 +44,25 @@ function ClipboardSidebar({ taskLists, onClose }) {
 
     const handleChange = (e) => {
         let can_reload = true;
+        let can_replace = true;
         if(todolists !== null) {
             e = JSON.parse(e.target.id)
             todolists.forEach(list => {
                 if(list.title === e.title){
                     can_reload = false;
+                    can_replace = false;
                     return toast.error('Essa lista já está sendo exibida.')
                 }
             });
-            todolists = todolists.slice(1);
-            todolists = todolists.reverse();
-            todolists.push(e);
-            todolists = todolists.reverse();
-            console.log(todolists)
-            localStorage.setItem('todolists', JSON.stringify(todolists));
-            if(can_reload) window.location.reload()
+            if(can_replace){
+                todolists = todolists.slice(1);
+                todolists = todolists.reverse();
+                todolists.push(e);
+                todolists = todolists.reverse();
+                console.log(todolists)
+                localStorage.setItem('todolists', JSON.stringify(todolists));
+                if(can_reload) window.location.reload()
+            }
         }
     }
 
