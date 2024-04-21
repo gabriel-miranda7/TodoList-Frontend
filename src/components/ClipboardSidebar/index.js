@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AiOutlineStar } from "react-icons/ai";
 import { AiFillStar } from "react-icons/ai";
@@ -13,6 +13,34 @@ function ClipboardSidebar({ taskLists, onClose }) {
     const [isCreating, setisCreating] = useState(false);
     let todolists = localStorage.getItem('todolists')
     todolists = JSON.parse(todolists)
+    const [lists, setLists] = useState(taskLists.map(list => ({
+        ...list,
+        isFavorite: false
+    }))); // Add isFavorite property to each list
+
+    useEffect(() => {
+        const fetchFavoriteLists = async () => {
+            try {
+                const response = await axios.get('/todolists', {
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                });
+                const favoriteLists = response.data.filter(list => list.favorite);
+                setLists(prevLists => {
+                    // Map through the existing lists and update the isFavorite property
+                    return prevLists.map(list => ({
+                        ...list,
+                        isFavorite: favoriteLists.some(favoriteList => favoriteList.id === list.id)
+                    }));
+                });
+            } catch (error) {
+                console.error('Error fetching favorite lists:', error);
+            }
+        };
+
+        fetchFavoriteLists();
+    }, [token]);
 
     const newList = async (titulo) => {
         try {
@@ -37,6 +65,27 @@ function ClipboardSidebar({ taskLists, onClose }) {
     const handleCreate = () => {
         setisCreating(!isCreating)
     }
+
+    const handleFavoriteToggle = async (id) => {
+        const updatedLists = lists.map(list => 
+            list.id === id ? { ...list, isFavorite: !list.isFavorite }: list
+        );
+        setLists(updatedLists);
+        const updatedItem = updatedLists.find(list => list.id === id);
+        try{
+            await axios.put('todolistnew', {
+                listId : id,
+                favorite : updatedItem.isFavorite
+            }, {
+                headers: {
+                    Authorization : `Token ${token}`
+                }
+            })
+        } catch(e){
+            console.log(e)
+        }
+
+    };
 
     function closePopup(){
         setisCreating(false)
@@ -66,29 +115,32 @@ function ClipboardSidebar({ taskLists, onClose }) {
         }
     }
 
+    const sortedLists = lists.slice().sort((a, b) => b.isFavorite - a.isFavorite);
+
     return (
         <Sidebar>
-            {isCreating && <NewList newListfunc={newList} onClose={closePopup}/> }
+            {isCreating && <NewList newListfunc={newList} onClose={closePopup}/>}
             <header>
                 <h1>To-do lists</h1>
             </header>
             <div className='tasks'>
                 <button onClick={handleCreate}>Criar To-do list</button>
-                {taskLists.map((list) => {
-                    return (
-                        <section>
-                            <AiOutlineStar size={30} color='#00be62' />
-                            {/* {<AiFillStar size={30} color='#00be62' />} */}
-                            <p id={JSON.stringify(list)} onClick={handleChange}>{list.title}</p>
-                        </section>
-                    )
-                })}
+                {sortedLists.map((list) => (
+                    <section key={list.id}>
+                        <div onClick={() => handleFavoriteToggle(list.id)}>
+                            {list.isFavorite 
+                                ? <AiFillStar size={30} color='#00be62' />
+                                : <AiOutlineStar size={30} color='#00be62' />}
+                        </div>
+                        <p id={JSON.stringify(list)} onClick={handleChange}>{list.title}</p>
+                    </section>
+                ))}
             </div>
             <footer onClick={onClose}>
                 <h1>Fechar</h1>
             </footer>
         </Sidebar>
-    )
+    );
 }
 
 ClipboardSidebar.propTypes = {

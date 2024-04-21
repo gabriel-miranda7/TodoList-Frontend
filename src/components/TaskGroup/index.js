@@ -13,11 +13,13 @@ function Tasks({ id, title: initialTitle, tasks_data  })
     const [isEditing, setEditing] = useState(false);
     const [tasks, setTasks] = useState(tasks_data);
 
-    // useEffect(() => {
-    //     // Filtra as tarefas cujo isOnTrashBin é false
-    //     const filteredTasks = tasks_data.filter(task => task.isOnTrashBin === false);
-    //     setTasks(filteredTasks);
-    // }, [tasks_data]);
+    useEffect(() => {
+        // Filtra as tarefas cujo isOnTrashBin é false
+        console.log(token)
+        const filteredTasks = tasks_data.filter(task => !task.isOnTrashBin);
+        setTasks(filteredTasks);
+    }, [tasks_data]);
+
 
     const handleClick = () => {
         let editing = isEditing;
@@ -60,7 +62,6 @@ function Tasks({ id, title: initialTitle, tasks_data  })
 
     const handleDeleteTask = async (taskId) => {
         setTasks(tasks.filter(task => task.id !== taskId));
-        alert(taskId)
         try{
             await axios.put('trashaddremove', {
                 todoId : taskId
@@ -69,6 +70,7 @@ function Tasks({ id, title: initialTitle, tasks_data  })
                     Authorization: `Token ${token}`
                 }
             })
+            window.location.reload();
         } catch(e) {
             console.log(e)
         }
@@ -81,6 +83,20 @@ function Tasks({ id, title: initialTitle, tasks_data  })
                 onKeyPress={handleTitleSubmit} autoFocus 
                 type='text' maxLength={30} defaultValue={title}/> : <h1 onClick={handleTitleClick}>{title}</h1>}
             </div>
+            {tasks.map((task) => {
+                if (task.isOnTrashBin === false){
+                    return;
+                }
+                return(
+                    <Task 
+                        id = {task.id}
+                        title={task.title}
+                        desc={task.description}
+                        complete={task.complete}
+                        onDelete={handleDeleteTask}
+                    />
+                )
+            })}
             {/* mapeando todas as tasks e exibindo cada uma */}
             {tasks_data.filter(task => task.isOnTrashBin === false).map(task => {
                 return(

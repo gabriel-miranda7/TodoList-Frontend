@@ -52,7 +52,7 @@ function NewTask({ todoList, onTaskSubmit, onClose }) {
                     Descrição: <textarea onChange={(e) => setDescription(e.target.value)} />
                 </section>
                 <button type='submit'>Criar</button>
-                <button onClick={onClose}>Fechar</button>
+                <button type='button' onClick={onClose}>Fechar</button>
             </form>
         </Box>
     )

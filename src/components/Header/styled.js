@@ -53,6 +53,11 @@ export const Main = styled.div`
     .cog-icon:hover {
         transform: scale(1.2) rotate(-145deg);  // Aumenta e rotaciona o ícone
     }
+    .search-icon:hover,
+    .clipboard-icon:hover,
+    .trash-icon:hover {
+        transform: scale(1.2) rotate(-10deg);  // Aumenta e rotaciona o ícone
+    }
 
 
     .actions {
