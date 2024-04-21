@@ -6,10 +6,12 @@ import { FaRegEdit } from "react-icons/fa";
 import axios from '../../services/axios';
 import { TaskStyle } from './styled';
 import EditTask from '../EditTaskPopup';
+import ViewTask from '../ViewTask';
 
-function Task({ id, title, desc, complete, onDelete }) {
+function Task({ id, title, desc, complete, created, onDelete }) {
     const [comp, setComp] = useState(true); // Inicializa o estado com o valor de complete
     const [isEditing, setIsEditing] = useState(false);
+    const [isViewing, setIsViewing] = useState(false);
     const [taskTitle, setTaskTitle] = useState(title);
     const [taskDescription, setTaskDescription] = useState(desc);
     const token = localStorage.getItem('token');
@@ -58,6 +60,9 @@ function Task({ id, title, desc, complete, onDelete }) {
     const handleEditting = () => {
         setIsEditing(!isEditing)
     }
+    const setToView = () => {
+        setIsViewing(!isViewing)
+    }
 
     const handleEditSubmit = async (taskId, newTitle, newDescription) => {
         try{
@@ -86,7 +91,7 @@ function Task({ id, title, desc, complete, onDelete }) {
                     :
                     <FiCheckCircle className='circle' size={30} onClick={() => handleClick(id)}  />
                 }
-                <p>{taskTitle}</p>
+                <p onClick={() => setToView()}>{taskTitle}</p>
                 <FaRegEdit className='edit' size={30} onClick={handleEditting}/>
             </TaskStyle>
             {isEditing && <EditTask 
@@ -95,6 +100,12 @@ function Task({ id, title, desc, complete, onDelete }) {
              taskId={id} 
              closeEditing={() => setIsEditing(false)}
                 onTaskSubmit={handleEditSubmit} onDelete={handleDelete} />}
+            {isViewing && 
+            <ViewTask 
+            title={taskTitle} 
+            description={taskDescription} 
+            iscomplete={comp}
+            onClose={setToView} /> }
         </>
     ); 
 };

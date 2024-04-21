@@ -93,6 +93,7 @@ function Tasks({ id, title: initialTitle, tasks_data  })
                         title={task.title}
                         desc={task.description}
                         complete={task.complete}
+                        created={task.created}
                         onDelete={handleDeleteTask}
                     />
                 )
@@ -105,6 +106,7 @@ function Tasks({ id, title: initialTitle, tasks_data  })
                         title={task.title}
                         desc={task.description}
                         complete={task.complete}
+                        created={task.created}
                         onDelete={handleDeleteTask}
                     />
                 )

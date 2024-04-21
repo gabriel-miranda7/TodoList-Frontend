@@ -10,7 +10,8 @@ export const Box = styled.div`
     justify-content: center;
     align-items: center;
     height: 60vh;
-    width: 40%;
+    width: auto;
+    padding: 5vw;
     background-color: #fff;
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
@@ -33,6 +34,23 @@ export const Box = styled.div`
 
     .excedido {
         color: red;
+    }
+
+    button {
+        background-color: transparent;
+        padding: 10px;
+        border: 2px solid ${iconColor};
+        border-radius: 5px;
+        font-size: 30px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    button:hover {
+        cursor: pointer;
+        color: white;
+        background-color: ${iconColor}
     }
 
     input {
