@@ -11,6 +11,8 @@ export const TaskGroup = styled.div`
     border: 1px solid #b1b0b1;
     padding: 20px;
     gap: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     h1 {
         font-size: 40px;

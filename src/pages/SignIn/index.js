@@ -131,7 +131,7 @@ function SignIn() {
             {isRegistering && (
                 <>
                 <div className='image'>
-                    <img src='images/signin3.png' alt='imagem_de_login' />
+                    <img src='images/signup1.png' alt='imagem_de_login' />
                 </div>
                 <div className='login'>
                     <form className='form_login'>

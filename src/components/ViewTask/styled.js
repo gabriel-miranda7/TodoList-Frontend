@@ -8,8 +8,10 @@ export const Main = styled.div`
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
-    background-color: #fff;
+    background-color: lightgray;
     font-size: 20px;
+    border-radius: 10px;
+    padding: 20px;
     font-family: 'Poppins', sans-serif;
 
     .background{
@@ -17,14 +19,31 @@ export const Main = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        background-color: gray;
+        background-color: #fff;
         padding: 50px;
         height: 40vh;
-        width: 40vw;
+        width: 35vw;
+        border-radius: 10px;
     }
 
     .fecharIcon{
         cursor: pointer;
+        padding: 10px;
+        background-color: ${iconColor};
+        border-radius: 10px;
+        color: #fff;
+    }
+
+    .fecharIcon:hover{
+        filter: brightness(80%);
+    }
+
+    .description {
+        display: flex;
+        background-color: lightgray;
+        padding: 10px;
+        border-radius: 10px;
+        word-break: keep-all;
     }
 
     button {

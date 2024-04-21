@@ -20,7 +20,6 @@ function TrashSidebar({ taskLists, onClose, onDelete }) {
 
     const handleDelete = (e) => {
         onDelete(e.target.id)
-        window.location.reload();
     }
 
     let counter = 0;

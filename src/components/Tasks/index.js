@@ -50,6 +50,24 @@ function Task({ id, title, desc, complete, created, onDelete }) {
                     Authorization: `Token ${token}`
                 }
             })
+            const response = await axios.get('todolists', {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+            // pegando o histórico do localStorage
+            const newData = response.data
+            console.log(newData)
+            const history = JSON.parse(localStorage.getItem('todolists'))
+            history.forEach(el => {
+                newData.forEach(data => {
+                    if(el.id === data.id) {
+                        history[history.indexOf(el)] = newData[newData.indexOf(data)]
+                    }
+                });
+            });
+            localStorage.setItem('todolists', JSON.stringify(history))
+            // window.location.reload();
             setComp(newCompValue)
         }catch(e){
             console.log(e)
@@ -74,13 +92,31 @@ function Task({ id, title, desc, complete, created, onDelete }) {
                 headers: {
                     Authorization: `Token ${token}`
                     }
-                })
-                setTaskTitle(newTitle);
-                setTaskDescription(newDescription);
-            }catch(e){
-                console.log(e)
-            }
-        };
+            })
+            setTaskTitle(newTitle);
+            setTaskDescription(newDescription);
+            const response = await axios.get('todolists', {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+            // pegando o histórico do localStorage
+            const newData = response.data
+            console.log(newData)
+            const history = JSON.parse(localStorage.getItem('todolists'))
+            history.forEach(el => {
+                newData.forEach(data => {
+                    if(el.id === data.id) {
+                        history[history.indexOf(el)] = newData[newData.indexOf(data)]
+                    }
+                });
+            });
+            localStorage.setItem('todolists', JSON.stringify(history))
+            window.location.reload();
+        }catch(e){
+            console.log(e)
+        }
+    };
 
     return (
         <>
