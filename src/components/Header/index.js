@@ -9,6 +9,7 @@ import { Main } from './styled';
 import SettingsPopup from '../SettingsPopup';
 import TrashSidebar from '../TrashSidebar';
 import ClipboardSidebar from '../ClipboardSidebar';
+import SearchBarM from '../TopSearchBar';
 
 function Header() {
     const token = localStorage.getItem('token');
@@ -17,15 +18,16 @@ function Header() {
     const [isTrashOpen, setisTrashOpen] = useState(false);
     const [isClipboardOpen, setisClipboardOpen] = useState(false);
     const [popupStyle, setPopupStyle] = useState({ opacity: 0, transition: 'opacity 0.5s' });
-    //const [isSearching, setIsSearching] = useState(false);
+    const [isSearching, setIsSearching] = useState(false)
     const cogRef = useRef(null); //Pega a referência da engrenagem
     useEffect(() => {
-        if (isSettingsOpen || isTrashOpen || isClipboardOpen) {
+        if (isSettingsOpen || isTrashOpen || isClipboardOpen || isSearching) {
             setPopupStyle({ opacity: 1, transition: 'opacity 0.4s' });
         } else {
             setPopupStyle({ opacity: 0});
         }
-    }, [isSettingsOpen, isTrashOpen, isClipboardOpen]);
+    }, [isSettingsOpen, isTrashOpen, isClipboardOpen, isSearching]);
+
 
     useEffect(() => {
         async function getData(){
@@ -43,25 +45,37 @@ function Header() {
         }
 
         getData();
-    }, [])
+    }, [token])
 
     const toggleSettings = () => {
         setisSettingsOpen(!isSettingsOpen);
         setisTrashOpen(false);
+        setIsSearching(false)
         setisClipboardOpen(false);
     };
 
     const toggleTrash = () => {
         setisTrashOpen(!isTrashOpen);
         setisSettingsOpen(false);
+        setIsSearching(false)
         setisClipboardOpen(false);
     };
 
     const toggleClipboard = () => {
         setisClipboardOpen(!isClipboardOpen);
+        setIsSearching(false)
         setisSettingsOpen(false);
         setisTrashOpen(false);
     };
+
+    
+    const toggleSearch = () => {
+        setIsSearching(!isSearching)
+        setisSettingsOpen(false);
+        setisTrashOpen(false);
+        setisClipboardOpen(false);
+    };
+
 
     const handleDeleteTask = async (taskId) => {
         setTasks(tasks.filter(task => task.id !== taskId));
@@ -96,13 +110,15 @@ function Header() {
                     <LiaClipboardListSolid className='clipboard-icon' size={30} />
                 </section>
                 <section className='search'>
-                    <IoIosSearch className='search-icon' size={30} />
+                    <IoIosSearch className='search-icon' onClick={toggleSearch} size={30} />
                 </section>
             </div>
+
             {isTrashOpen && <TrashSidebar onClose={toggleTrash} style={popupStyle} 
                             taskLists={tasks} onDelete={handleDeleteTask} />}
             {isSettingsOpen && <SettingsPopup onClose={toggleSettings} style={popupStyle} iconRef={cogRef} />}
             {isClipboardOpen && <ClipboardSidebar taskLists={tasks} onClose={toggleClipboard} />}
+            {isSearching && <SearchBarM style={popupStyle}/>}
         </Main>
     );
 }

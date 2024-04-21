@@ -36,6 +36,7 @@ function TaskGroupsBox() {
                 window.location.reload();
             }
         catch (error) {
+            alert(error)
             if(error.response && error.response.status === 400) {
                 return toast.error('Já existe uma lista com esse nome.')
             }
