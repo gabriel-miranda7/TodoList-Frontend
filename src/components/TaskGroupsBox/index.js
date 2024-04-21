@@ -71,7 +71,7 @@ function TaskGroupsBox() {
     }
 
     const todolists = localStorage.getItem('todolists')
-    if(todolists === null){
+    if(todolists[0] === null){
         localStorage.setItem('todolists', JSON.stringify(latestTodoLists))
     }
     let visibleLists = localStorage.getItem('todolists')
