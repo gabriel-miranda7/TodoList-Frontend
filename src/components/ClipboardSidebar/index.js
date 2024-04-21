@@ -45,7 +45,7 @@ function ClipboardSidebar({ taskLists, onClose }) {
     const handleChange = (e) => {
         let can_reload = true;
         let can_replace = true;
-        if(todolists !== null) {
+        if(todolists[0] !== null) {
             e = JSON.parse(e.target.id)
             todolists.forEach(list => {
                 if(list.title === e.title){
