@@ -69,16 +69,19 @@ function TaskGroupsBox() {
         latestTodoLists.push(allTodoLists[i])
     }
 
-    let todolists = localStorage.getItem('todolists')
-    todolists = JSON.parse(todolists)
-    if(todolists[0] === null){
-        console.log(todolists)
+    function check(){
+        return localStorage.getItem('todolists')
+    }
+
+    if(check() === null && allTodoLists.length > 5){
+        //console.log(allTodoLists.length > 5)
         localStorage.setItem('todolists', JSON.stringify(latestTodoLists))
     }
     let visibleLists = localStorage.getItem('todolists')
     visibleLists = JSON.parse(visibleLists)
+    // console.log(visibleLists)
 
-    if(allTodoLists.length > 5 && visibleLists[0] !== null) {
+    if(allTodoLists.length > 5) {
         return (
             <Main>
                 {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
