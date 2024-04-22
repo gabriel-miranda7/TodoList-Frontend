@@ -6,18 +6,18 @@ export const Box = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    top: 10%;
+    top: 15%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
-    background-color: rgba(236, 236, 236, 0.6);
-    border: 2px solid ${iconColor};
+    background-color: rgba(236, 236, 236, 0.9);
     padding: 10px;
     border-radius: 40px;
     width: 30vw;
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     
 
     .item-lista{
@@ -32,7 +32,7 @@ export const Box = styled.div`
     input{
         background-color: transparent;
         padding: 5px;
-        width: 70%;
+        width: 80%;
         border: 1px solid black;
         border-radius: 10px;
         font-size: 20px;

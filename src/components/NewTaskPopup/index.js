@@ -44,7 +44,6 @@ function NewTask({ todoList, onTaskSubmit, onClose }) {
                 });
             });
             localStorage.setItem('todolists', JSON.stringify(history))
-            window.location.reload();
         } catch (e) {
             console.log(e)
         }

@@ -7,7 +7,6 @@ import { Main } from './styled';
 
 function SignIn() {
     const [isRegistering, setRegistering] = useState(false)
-    const [rememberMe, setRemember] = useState(false)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         username: '',
@@ -32,11 +31,6 @@ function SignIn() {
     checkTokenAndRedirect();
   }, []);
 
-    const handleRemember = () => {
-        setRemember(!rememberMe)
-        let MustRemember = !rememberMe
-        localStorage.setItem('mustRemember', MustRemember)
-    }
 
     const handleToggle = () => {
         setRegistering(!isRegistering);
@@ -62,13 +56,15 @@ function SignIn() {
             } else {
                 response = await axios.post('authenticate/login', formData)
             }
-
             localStorage.setItem('token', response.data);
             navigate('/dash')
             console.log(localStorage.getItem('token'))
         } catch(error) {
             if (error.response && error.response.data['detail'] === 'Incorrect Password'){
                 toast.error("Senha incorreta.");
+            }
+            else if (error.response && error.response.data['error'] === 'Too short'){
+                toast.error("Essa senha é curta demais. Ela precisa de no mínimo 8 caracteres.");
             }
             else if(error.response && error.response.status === 404){ //Tratamento de erros HTTP
                 toast.error("Esse usuário não existe");
@@ -105,19 +101,13 @@ function SignIn() {
                         <label htmlFor='password' className='login_field'>
                             <p>Senha</p>
                             <input 
-                            type='text' 
+                            type='password' 
                             id='password' 
                             value={formData.password}
                             onChange={handleChange}
                             />
                         </label>
                         <button onClick={handleLogin}>Fazer Login</button>
-                    <div className=''>
-                        <label htmlFor='checkbox' className='checkbox'>
-                            <input type='checkbox' id='checkbox' onClick={handleRemember} />
-                            Lembrar de mim
-                        </label>
-                    </div>
                     </form>
                     <div className='footer'>
                         <label htmlFor='signup' className='signup_button'>
@@ -147,7 +137,7 @@ function SignIn() {
                         <label htmlFor='password' className='login_field'>
                             <p>Senha</p>
                             <input 
-                            type='text' 
+                            type='password' 
                             id='password' 
                             value={formData.password}
                             onChange={handleChange}
@@ -156,7 +146,7 @@ function SignIn() {
                         <label htmlFor='confirmPassword' className='login_field'>
                             <p>Confirmar senha</p>
                             <input 
-                            type='text' 
+                            type='password' 
                             id='confirmPassword' 
                             value={formData.confirmPassword}
                             onChange={handleChange}

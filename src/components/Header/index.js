@@ -97,14 +97,16 @@ function Header() {
             const newData = response.data
             console.log(newData)
             const history = JSON.parse(localStorage.getItem('todolists'))
-            history.forEach(el => {
-                newData.forEach(data => {
-                    if(el.id === data.id) {
-                        history[history.indexOf(el)] = newData[newData.indexOf(data)]
-                    }
+            if (history !== null){
+                history.forEach(el => {
+                    newData.forEach(data => {
+                        if(el.id === data.id) {
+                            history[history.indexOf(el)] = newData[newData.indexOf(data)]
+                        }
+                    });
                 });
-            });
-            localStorage.setItem('todolists', JSON.stringify(history))
+                localStorage.setItem('todolists', JSON.stringify(history))
+            }
             window.location.reload();
         } catch(e) {
             console.log(e)

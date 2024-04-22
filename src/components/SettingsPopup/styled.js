@@ -6,7 +6,7 @@ export const Box = styled.div`
     flex-direction: column;
     justify-content: space-around;
     position: fixed; /*Mudar essa posição fixa para uma relativa, melhorando a responsividade */
-    top: 53%;
+    top: 35%;
     left: 50%;
     transform: translate(170%, -120%);
     width: 15%;
