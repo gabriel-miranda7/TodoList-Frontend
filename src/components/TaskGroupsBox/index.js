@@ -70,14 +70,19 @@ function TaskGroupsBox() {
         latestTodoLists.push(allTodoLists[i])
     }
 
-    const todolists = localStorage.getItem('todolists')
-    if(todolists[0] === null){
+    function check(){
+        return localStorage.getItem('todolists')
+    }
+
+    if(check() === null && allTodoLists.length > 5){
+        //console.log(allTodoLists.length > 5)
         localStorage.setItem('todolists', JSON.stringify(latestTodoLists))
     }
     let visibleLists = localStorage.getItem('todolists')
     visibleLists = JSON.parse(visibleLists)
+    // console.log(visibleLists)
 
-    if(allTodoLists.length > 5 && visibleLists !== null) {
+    if(allTodoLists.length > 5) {
         return (
             <Main>
                 {isCreating ? <NewList newListfunc={newList} onClose={closePopup}/> : ''}
@@ -86,7 +91,7 @@ function TaskGroupsBox() {
                         // de acordo com o histórico de TodoLists
                     return (
                         <TaskGroup
-                            key={todolist.id}
+                            id={todolist.id}
                             title={todolist.title}
                             tasks_data={todolist.todos}
                         />

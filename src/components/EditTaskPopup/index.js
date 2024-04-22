@@ -28,8 +28,8 @@ function EditTask({ taskId, title, desc, closeEditing, onTaskSubmit, onDelete })
                 </section>
                 <button type='submit'>Concluído</button>
                 <button onClick={deleteTodo}>Deletar To-do</button>
+                <button type='button' onClick={closeEditing}>Fechar</button>
             </form>
-            <button type='button' onClick={closeEditing}>Fechar</button>
         </Box>
     )
 }

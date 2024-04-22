@@ -47,6 +47,8 @@ function Header() {
         getData();
     }, [token])
 
+    console.log(tasks)
+
     const toggleSettings = () => {
         setisSettingsOpen(!isSettingsOpen);
         setisTrashOpen(false);
@@ -78,8 +80,6 @@ function Header() {
 
 
     const handleDeleteTask = async (taskId) => {
-        setTasks(tasks.filter(task => task.id !== taskId));
-        alert(taskId)
         try{
             await axios.put('trashaddremove', {
                 todoId : taskId
@@ -88,6 +88,24 @@ function Header() {
                     Authorization: `Token ${token}`
                 }
             })
+            const response = await axios.get('todolists', {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            })
+            // pegando o histórico do localStorage
+            const newData = response.data
+            console.log(newData)
+            const history = JSON.parse(localStorage.getItem('todolists'))
+            history.forEach(el => {
+                newData.forEach(data => {
+                    if(el.id === data.id) {
+                        history[history.indexOf(el)] = newData[newData.indexOf(data)]
+                    }
+                });
+            });
+            localStorage.setItem('todolists', JSON.stringify(history))
+            window.location.reload();
         } catch(e) {
             console.log(e)
         }

@@ -9,10 +9,18 @@ function ViewTask({ title, description, iscomplete, onClose}) {
     return (
         <Main>
             <div className='background'>
-                <div onClick={onClose} className='fecharIcon'>FecharX</div>
+                <div onClick={onClose} className='fecharIcon'>Fechar</div>
                 <div>Título: {title}</div>
-                {description && <div>Descrição: {description}</div>}
-                {iscomplete != null && <div>Está completo? : {iscomplete ? "Não" : "Sim"}</div>}
+                <div>
+                <p>Descrição: </p>
+                {description === '' ? '' 
+                : 
+                <section className='description'>
+                    <p>{description}</p>
+                </section>
+                }
+                </div>
+                <div>Está completo? : {iscomplete ? "Não" : "Sim"}</div>
             </div>
         </Main>
     );

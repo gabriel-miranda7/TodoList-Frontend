@@ -27,16 +27,24 @@ function NewTask({ todoList, onTaskSubmit, onClose }) {
             newTask['id'] = responseGetId.data.id;
             // criando nova tarefa
             onTaskSubmit(newTask);
-            // pegando o histórico do localStorage
-            const history = JSON.parse(localStorage.getItem('todolists'))
-            // atualizando o histórico no localStorage
-            history.forEach(list => {
-                if(list.title === todoList){
-                    list.todos.push(responseGetId.data)
+            const response = await axios.get('todolists', {
+                headers: {
+                    Authorization: `Token ${token}`
                 }
+            })
+            // pegando o histórico do localStorage
+            const newData = response.data
+            console.log(newData)
+            const history = JSON.parse(localStorage.getItem('todolists'))
+            history.forEach(el => {
+                newData.forEach(data => {
+                    if(el.id === data.id) {
+                        history[history.indexOf(el)] = newData[newData.indexOf(data)]
+                    }
+                });
             });
-            // enviando a versão atualizada para o localStorage
             localStorage.setItem('todolists', JSON.stringify(history))
+            window.location.reload();
         } catch (e) {
             console.log(e)
         }
